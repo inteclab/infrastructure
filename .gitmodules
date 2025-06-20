@@ -1,3 +1,4 @@
 [submodule "ub-autoinstall-iso"]
 	path = ub-autoinstall-iso
 	url = https://github.com/inteclab/ub-autoinstall-iso.git
+	branch = main

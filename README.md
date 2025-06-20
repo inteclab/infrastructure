@@ -7,37 +7,41 @@ Stores
 # File Structure
 ```
 infrastructure/
-├── ub-autoinstall-iso/
-│   ├── config/
-│   │   ├── user-data
-│   │   └── meta-data
-│   ├── scripts/
-│   │   └── generate-iso.sh
-│   └── docs/
-│       └── RAID6_setup.md
-├── inventory/
-│   ├── production
-│   └── staging
-├── group_vars/
-│   ├── all.yml
-│   └── vault.yml (encrypted)
-├── roles/
-│   ├── common/
-│   ├── security/
-│   ├── teleport/
-│   ├── wazuh/
-│   ├── elk_stack/
-│   └── vault/
-├── playbooks/
-│   ├── bootstrap.yml
-│   ├── hardening.yml
-│   ├── monitoring.yml
-│   ├── vault.yml
-│   └── patching.yml
-└── .github/
-    └── workflows/
-        └── ansible-ci.yml
-
+├── inventory
+│   ├── production
+│   └── staging
+├── playbooks
+│   ├── bootstrap.yml
+│   └── site.yml
+├── roles
+│   ├── common
+│   ├── elk_stack
+│   ├── security
+│   ├── teleport
+│   ├── vault
+│   └── wazuh
+├── ub-autoinstall-iso
+│   ├── config
+│   │   ├── boot
+│   │   ├── extras
+│   │   ├── isolinux
+│   │   ├── meta-data
+│   │   ├── user-data (需要修改的用户配置)
+│   │   ├── user-data.efi
+│   │   └── user-data.mbr
+│   ├── docs
+│   │   └── RAID6_setup.md
+│   ├── scripts
+│   │   ├── common.sh
+│   │   ├── read_disk.sh
+│   │   └── setup_raid.sh （RAID设置脚本）
+│   ├── LICENSE
+│   ├── Makefile
+│   ├── README_CN.md
+│   ├── README.ja.md
+│   ├── README.md
+├── ansible.cfg
+└── README.md
 ```
 
 
