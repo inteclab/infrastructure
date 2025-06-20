@@ -1,4 +1,4 @@
-# Infrastruture
+# Infrastructure
 
 Stores 
     - Ansible playbooks and roles for configuring, hardening, and maintaining your servers.
@@ -46,7 +46,7 @@ infrastructure/
 
 
 ## 子模块的使用和维护
-使用 `git clone --recursive https://github.com/inteclab/infrastruture.git` 克隆本项目及子模块
+使用 `git clone --recursive https://github.com/inteclab/infrastructure.git` 克隆本项目及子模块
 
 ## 子模块的修改和更新
 ```bash
