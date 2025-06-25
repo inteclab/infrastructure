@@ -1,0 +1,51 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ub2404
+    username: ubuntu
+    # password: "secret" ($ openssl passwd -6 -salt $(openssl rand -hex 8) "secret")
+    password: "$6$1deb934eb89e6d28$Dvr8HQRlBvpX4PVSLB0tOcQqfD38L8glDWIk.tjQQNMh9OvXqhz45hPEC6yoJSMWGTvOdUX8n.f7XZ5EbtJy.1"
+  early-commands: []
+  keyboard:
+    layout: us
+  shutdown: poweroff
+  package_update: false
+  package_upgrade: false
+  storage:
+    swap:
+      size: 2G
+    config:
+      - id: root-ssd
+        type: disk
+        ptable: msdos
+        match:
+          size: largest
+        wipe: superblock-recursive
+        preserve: false
+        grub_device: true
+        name: "SSD"
+      - id: partition-1
+        type: partition
+        size: -1
+        number: 1
+        device: root-ssd
+        wipe: superblock
+        preserve: false
+      - id: format-1
+        type: format
+        fstype: ext4
+        volume: partition-1
+        label: ROOT
+        preserve: false
+      - id: format-1-root
+        type: mount
+        path: /
+        device: format-1
+        options: 'noatime,errors=remount-ro'
+  ssh:
+    install-server: true
+    allow-pw: true
+    authorized-keys: []
+  late-commands:
+    - cp /cdrom/ubuntu.sudoers /target/etc/sudoers.d/99-user-ubuntu

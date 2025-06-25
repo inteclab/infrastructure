@@ -192,3 +192,12 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+
+# autoinstall 项目相关临时文件
+*~
+/iso_root*
+*.iso
+*.sha256
+*.verified
+.proxy_config

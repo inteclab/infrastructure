@@ -1,0 +1,123 @@
+#cloud-config
+autoinstall:
+  version: 1
+  
+  # 基础配置
+  locale: en_US.UTF-8
+  early-commands: []
+  keyboard:
+    layout: us
+    variant: ''
+
+  # 存储配置 - 基于Ubuntu 24.04最新规范
+  storage:
+    swap:
+      size: 0  # 禁用SWAP
+    grub:
+      reorder_uefi: false  # 防止EFI重排序问题
+    config:
+      # 系统盘配置
+      - id: system-disk
+        type: disk
+        ptable: gpt
+        match:
+          path: "/dev/nvme0n1"
+        wipe: superblock-recursive
+        preserve: false
+        grub_device: false  # 磁盘级别设为false
+        name: "nvme0"
+      
+      # EFI分区 - 按照24.04标准配置
+      - id: efi-partition
+        type: partition
+        size: 1G  # 使用24.04默认大小
+        number: 1
+        device: system-disk
+        wipe: superblock
+        flag: boot
+        preserve: false
+        grub_device: true  # EFI分区设为true
+      
+      # 根分区
+      - id: root-partition
+        type: partition
+        size: -1
+        number: 2
+        device: system-disk
+        wipe: superblock
+        preserve: false
+        grub_device: false
+      
+      # 文件系统格式化
+      - id: format-efi
+        type: format
+        fstype: fat32  # Ubuntu 24.04使用fat32
+        volume: efi-partition
+        label: ESP
+        preserve: false
+      
+      - id: format-root
+        type: format
+        fstype: ext4
+        volume: root-partition
+        label: ROOT
+        preserve: false
+      
+      # 挂载点
+      - id: mount-efi
+        type: mount
+        path: /boot/efi
+        device: format-efi
+      
+      - id: mount-root
+        type: mount
+        path: /
+        device: format-root
+        options: 'noatime,errors=remount-ro'
+
+  # Identity
+  identity:
+    hostname: acap-cn-prod1
+    username: acap
+    password: "$6$381a604220a53759$cfXLhILiNScGCFxyKm1JZWIlbFtm0nzcqiSxUau37vYso8bIpWsqx8bqjrEoZmwOrljFIPbDy1xA1jBrlZNL51"
+    
+  # SSH configuration
+  ssh:
+    install-server: true
+    allow-pw: false
+    disable-root: true
+    authorized-keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINT2HOcpd8IbDwKM3oa/LVmg+bgGjOWwdOGLU52IEOjA cn-as"
+
+  # 合并后的软件包列表
+  packages:
+    # 中文字体和语言支持
+    - fonts-noto-core
+    - fonts-noto-cjk
+    - fonts-liberation
+    - language-pack-zh-hans
+    # 系统工具
+    - openssh-server
+    - curl
+    - wget
+    - vim
+    - htop
+    - git
+    - mdadm
+    - lvm2
+    - ansible
+    - gnutls-bin
+    - gnupg
+    - dpkg
+    - apt-transport-https
+    - lsb-release
+    - ca-certificates
+
+  # 后期命令
+  late-commands:
+    - 'echo "LC_ALL=C.UTF-8" >> /target/etc/default/locale'
+    - 'echo "LANG=C.UTF-8" >> /target/etc/default/locale'
+    - 'echo "LANGUAGE=en_US:en" >> /target/etc/default/locale'
+
+  # 安装后重启
+  shutdown: reboot
