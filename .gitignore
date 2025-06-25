@@ -196,7 +196,7 @@ cython_debug/
 
 # autoinstall 项目相关临时文件
 *~
-/iso_root*
+iso_root*
 *.iso
 *.sha256
 *.verified
