@@ -56,50 +56,53 @@ detect_available_disks() {
         fi
     done
 
-    # 处理 SATA 设备
-    for letter in {a..z}; do
-        dev="/dev/sd$letter"
-        if [ -b "$dev" ]; then
-            # 检查是否为系统盘
-            local is_system_disk=false
-            
-            # 检查分区是否挂载到系统目录
-            for i in $(seq 1 9); do
-                part="${dev}${i}"
-                if [ -b "$part" ]; then
-                    if mount | grep -q "^$part.* / " || mount | grep -q "^$part.* /boot"; then
-                        is_system_disk=true
-                        break
-                    fi
-                fi
-            done
-            
-            # 也检查整个磁盘是否被挂载
-            if mount | grep -q "^$dev.* / " || mount | grep -q "^$dev.* /boot"; then
-                is_system_disk=true
-            fi
-            
-            # 如果不是系统盘且没有被挂载，则添加到可用列表
-            if [ "$is_system_disk" = false ]; then
-                # 检查是否已被挂载到其他位置
-                if ! mount | grep -q "^$dev"; then
-                    # 检查分区是否被挂载
-                    local has_mounted_partition=false
-                    for i in $(seq 1 9); do
-                        part="${dev}${i}"
-                        if [ -b "$part" ] && mount | grep -q "^$part"; then
-                            has_mounted_partition=true
-                            break
-                        fi
-                    done
-                    
-                    if [ "$has_mounted_partition" = false ]; then
-                        available_disks+=("$dev")
-                    fi
-                fi
-            fi
-        fi
-    done
+    # 注释：默认忽略 SATA 设备 (sdx)，只使用 NVMe 设备
+    # 如需包含 SATA 设备，请手动指定磁盘参数
+    # 
+    # # 处理 SATA 设备
+    # for letter in {a..z}; do
+    #     dev="/dev/sd$letter"
+    #     if [ -b "$dev" ]; then
+    #         # 检查是否为系统盘
+    #         local is_system_disk=false
+    #         
+    #         # 检查分区是否挂载到系统目录
+    #         for i in $(seq 1 9); do
+    #             part="${dev}${i}"
+    #             if [ -b "$part" ]; then
+    #                 if mount | grep -q "^$part.* / " || mount | grep -q "^$part.* /boot"; then
+    #                     is_system_disk=true
+    #                     break
+    #                 fi
+    #             fi
+    #         done
+    #         
+    #         # 也检查整个磁盘是否被挂载
+    #         if mount | grep -q "^$dev.* / " || mount | grep -q "^$dev.* /boot"; then
+    #             is_system_disk=true
+    #         fi
+    #         
+    #         # 如果不是系统盘且没有被挂载，则添加到可用列表
+    #         if [ "$is_system_disk" = false ]; then
+    #             # 检查是否已被挂载到其他位置
+    #             if ! mount | grep -q "^$dev"; then
+    #                 # 检查分区是否被挂载
+    #                 local has_mounted_partition=false
+    #                 for i in $(seq 1 9); do
+    #                     part="${dev}${i}"
+    #                     if [ -b "$part" ] && mount | grep -q "^$part"; then
+    #                         has_mounted_partition=true
+    #                         break
+    #                     fi
+    #                 done
+    #                 
+    #                 if [ "$has_mounted_partition" = false ]; then
+    #                     available_disks+=("$dev")
+    #                 fi
+    #             fi
+    #         fi
+    #     fi
+    # done
 
     echo "${available_disks[@]}"
 }

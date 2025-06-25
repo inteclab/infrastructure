@@ -12,7 +12,7 @@
 安装依赖包.
 
     $ sudo apt update
-    $ sudo apt install git make sudo
+    $ sudo apt install -y git make sudo grub-pc-bin
 
 要下载ISO映像并填充初始文件（以下任务仅执行一次）.
 
@@ -93,6 +93,8 @@ History
   * 优化 user-data.efi
   * 删除其他无用的 生成ISO命令，只保留官方的方式
   * 删除isolinux
+  * **优化 Makefile**：移除 check-download 步骤中的 .verified 文件生成，保持目录整洁
+  * **优化 RAID 脚本**：修改 setup_raid.sh 默认行为，不带参数时只组建 NVMe 设备，忽略 SATA 设备
 
 * 2025/06/24 (下午更新)
   * 实现配置文件智能选择逻辑，支持 .efi/.mbr 自动回退
