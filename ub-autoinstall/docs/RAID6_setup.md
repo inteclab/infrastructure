@@ -29,7 +29,7 @@ email: han.shaohui@astrocapital.net
 ├── boot-partition (2GB)    -> /boot (ext4)  
 └── root-partition (剩余)   -> / (ext4)
 /dev/md0 (RAID-6，对应其余10块硬盘)   -> LVM Physical Volume 
-└── data (全部约32T)   -> /mnt/raid1 (ext4)
+└── data (全部约32T)   -> /mnt/raid (ext4)
 ```
 
 ## RAID建立方法 scripts/setup_raid.sh

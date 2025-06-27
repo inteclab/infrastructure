@@ -20,30 +20,14 @@ infrastructure/
 │   ├── teleport
 │   ├── vault
 │   └── wazuh
-├── ub-autoinstall-iso
-│   ├── config
-│   │   ├── boot
-│   │   ├── extras
-│   │   ├── isolinux
-│   │   ├── meta-data
-│   │   ├── user-data (需要修改的用户配置)
-│   │   ├── user-data.efi
-│   │   └── user-data.mbr
-│   ├── docs
-│   │   └── RAID6_setup.md
-│   ├── scripts
-│   │   ├── common.sh
-│   │   ├── read_disk.sh
-│   │   └── setup_raid.sh （RAID设置脚本）
-│   ├── LICENSE
-│   ├── Makefile
-│   ├── README_CN.md
-│   ├── README.ja.md
-│   ├── README.md
+├── ub-autoinstall
 ├── ansible.cfg
 └── README.md
 ```
 
+
+以下内容废弃，忽略.
+---
 
 ## 子模块的使用和维护
 使用 `git clone --recursive https://github.com/inteclab/infrastructure.git` 克隆本项目及子模块

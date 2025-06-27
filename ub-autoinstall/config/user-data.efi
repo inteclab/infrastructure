@@ -79,7 +79,7 @@ autoinstall:
   identity:
     hostname: acap-cn-prod1
     username: acap
-    password: "$6$381a604220a53759$cfXLhILiNScGCFxyKm1JZWIlbFtm0nzcqiSxUau37vYso8bIpWsqx8bqjrEoZmwOrljFIPbDy1xA1jBrlZNL51"
+    password: "$6$950e079d3694c162$SRQfElDn3mOQ/mRxBsazw.B47EU7gaqCt5pMeUQI.1CcGS3rMxdOI29DgxkY0Xc8tlMAbMBOBZ1P4lKqgLr46/"
     
   # SSH configuration
   ssh:
@@ -87,7 +87,7 @@ autoinstall:
     allow-pw: false
     disable-root: true
     authorized-keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINT2HOcpd8IbDwKM3oa/LVmg+bgGjOWwdOGLU52IEOjA cn-as"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICDYq1Ccw41b366/pY4Gq3Zfsx7MuIUoFqxUuk74f5Nt acap-cn-prod1"
 
   # 合并后的软件包列表
   packages:
@@ -118,6 +118,7 @@ autoinstall:
     - 'echo "LC_ALL=C.UTF-8" >> /target/etc/default/locale'
     - 'echo "LANG=C.UTF-8" >> /target/etc/default/locale'
     - 'echo "LANGUAGE=en_US:en" >> /target/etc/default/locale'
+    - cp /cdrom/acap.sudoers /target/etc/sudoers.d/99-user-acap
 
   # 安装后重启
   shutdown: reboot
