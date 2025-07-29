@@ -11,8 +11,15 @@ sudo systemctl restart ssh
 
 # Do the stuff below as teleport admin
 echo 'goto t.acap.cc and add a new ubuntu ssh node'
+echo 'Ensure that the user belongs to the team `teleport.access` on github.com'
 export USERNAME="mrpeterlee"
 export GID="1026"
+echo "sudo groupadd -g $GID $USERNAME"
+echo "sudo useradd -m -u $GID -g $GID $USERNAME"
+echo "sudo usermod -aG sudo $USERNAME"
+
+export USERNAME="hanzch"
+export GID="1027"
 echo "sudo groupadd -g $GID $USERNAME"
 echo "sudo useradd -m -u $GID -g $GID $USERNAME"
 echo "sudo usermod -aG sudo $USERNAME"
